@@ -21,7 +21,7 @@ UI.prototype.addBookToList = function(book){
     <td>${book.title}</td>
     <td>${book.author}</td>
     <td>${book.isbn}</td>
-    <td><a href="#">X</a></td>
+    <td><a href="#" class="delete">X</a></td>
     `
 
 list.appendChild(row)
@@ -55,6 +55,13 @@ UI.prototype.showAlert = function(message, className){
 
 }
 
+// Delete Books
+UI.prototype.deleteBook = function(target){
+    if(target.className === 'delete'){
+        target.parentElement.parentElement.remove();
+    }
+}
+
 // clear Fields
 UI.prototype.clearFields = function(){
     document.getElementById('title').value = '';
@@ -62,7 +69,7 @@ UI.prototype.clearFields = function(){
     document.getElementById('isbn').value = '';
 }
 
-// Event Listeners
+// Event Listeners for book add
 
 const bookForm = document.getElementById('book-form');
 
@@ -93,6 +100,22 @@ bookForm.addEventListener('submit', function(e){
             ui.clearFields();
 
     }        
+    e.preventDefault();
+});
+
+// Event listener for Book remove
+
+document.getElementById('book-list').addEventListener('click', function(e){
+
+    // Instantiate UI
+    const ui = new UI();
+
+    // delete Book
+    ui.deleteBook(e.target);
+
+    // show alert
+    ui.showAlert('Book Deleted!', 'success')
+
     e.preventDefault();
 })
 
